@@ -3,14 +3,15 @@
     "editor.inlayHints.fontFamily": "JetBrains Mono",
     "editor.inlayHints.fontSize": 12,
     "accessibility.signals.lineHasError": {
-        "sound": "on"
+        "sound": "auto",
+        "announcement": "auto"
     },
     "accessibility.signals.lineHasWarning": {
-        "sound": "on",
+        "sound": "auto",
         "announcement": "auto"
     },
     "accessibility.signals.lineHasInlineSuggestion": {
-        "sound": "on"
+        "sound": "auto"
     },
     "workbench.statusBar.visible": true
 }
