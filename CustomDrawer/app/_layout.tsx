@@ -1,4 +1,4 @@
-// import "react-native-geasture-handler";
+import "react-native-geasture-handler";
 import CustomDrawerContent from "@/components/CustomDrawerContent";
 import { Ionicons } from "@expo/vector-icons";
 import { Drawer } from "expo-router/drawer";
@@ -19,15 +19,20 @@ function DrawerLayout() {
           drawerLabel: "Home",
           drawerIcon: ({ size, color }) => <Ionicons name="home-outline" size={size} color={color} />
         }} />
-        <Drawer.Screen name="Profile" options={{ 
-          title: "Profile",
-          drawerLabel: "Profile",
-          drawerIcon: ({ size, color }) => <Ionicons name="person-outline" size={size} color={color} />
+        <Drawer.Screen name="PendingForms" options={{ 
+          title: "Pending Forms",
+          drawerLabel: "Pending Forms",
+          drawerIcon: ({ size, color }) => <Ionicons name="time-outline" size={size} color={color} />
         }} />
-        <Drawer.Screen name="News" options={{ 
-          title: "News",
-          drawerLabel: "News",
+        <Drawer.Screen name="Forms" options={{ 
+          title: "Forms",
+          drawerLabel: "Forms",
           drawerIcon: ({ size, color }) => <Ionicons name="newspaper-outline" size={size} color={color} />
+        }} />
+        <Drawer.Screen name="NotificationsScreen" options={{ 
+          title: "Notification",
+          drawerLabel: "Notification",
+          drawerIcon: ({ size, color }) => <Ionicons name="notifications-outline" size={size} color={color} />
         }} />
       </Drawer>
     </GestureHandlerRootView>

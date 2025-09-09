@@ -1,17 +1,30 @@
 import { Ionicons } from "@expo/vector-icons";
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from "@react-navigation/drawer";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+function containsHiddenRoutes(routeName: string): string {
+    if(routeName.startsWith("(hidden)/")) {
+        return routeName.split("/").pop() ?? "";
+    }
+
+    return routeName;
+}
 
 function CustomDrawerContent(props: any) {
     const router = useRouter();
     const { top, bottom } = useSafeAreaInsets();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [assetType, setAssetType] = useState("");
+
+    const currentRoute = props.state.routeNames[props.state.index];
 
     return (
         <View style={{flex: 1 }}>
             <DrawerContentScrollView {...props}
-            scrollEnabled={false}
+            scrollEnabled={true}
             contentContainerStyle={{ 
                 backgroundColor: "#dde3fe", 
                 flex: 1,
@@ -48,25 +61,102 @@ function CustomDrawerContent(props: any) {
                 }}>
                     <DrawerItemList
                     {...props}
-                    itemStyle={{
-                    width: "100%",         // force full width
-                    marginHorizontal: 0,   // remove left/right margins
-                    paddingHorizontal: 0,  // remove inner padding
+                    state={{
+                        ...props.state,
+                        routeNames: props.state.routeNames.filter(
+                        (name: string) => !name.startsWith("(hidden)")
+                        ),
+                        routes: props.state.routes.filter(
+                        (route: { name: string }) => !route.name.startsWith("(hidden)")
+                        ),
                     }}
-                />
+                    />
 
-                {/* <DrawerItem
-                    label="Logout"
-                    onPress={() => router.replace("/Index")}
+
+                    <View
                     style={{
-                    width: "100%",
-                    marginHorizontal: 0,
-                    paddingHorizontal: 0,
-                    }}
-                    labelStyle={{
-                    marginLeft: 0, // remove extra left indent
-                    }}
-                /> */}
+                        // marginTop: 8,
+                        marginHorizontal: 7,
+                    }}>
+                        <Pressable
+                        onPress={() => setIsDropdownOpen(!isDropdownOpen)}
+                        style={{
+                            width: "100%",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            backgroundColor:
+                            containsHiddenRoutes(currentRoute) === "Assets" ? "#5363df" : "transparent",
+                            borderRadius: 32,
+                            paddingVertical: 16,
+                            paddingHorizontal: 12,
+                        }}>
+                            <View
+                            style={{
+                                flexDirection: "row",
+                                justifyContent: "flex-start",
+                                alignItems: "center",
+                                gap: 14,
+                            }}>
+                                <Ionicons name="archive-outline" size={24} color={containsHiddenRoutes(currentRoute) === "Assets" ? "#FFF" : "#555"} />
+                                <Text style={{ 
+                                    fontSize: 14,
+                                    color: containsHiddenRoutes(currentRoute) === "Assets" ? "#FFF" : "#555"
+                                    }}>Assets</Text>
+                            </View>
+
+                            <Ionicons
+                            name={isDropdownOpen ? "chevron-up" : "chevron-down"} 
+                            size={24} 
+                            color={containsHiddenRoutes(currentRoute) === "Assets" ? "#FFF" : "#555"} />
+                        </Pressable>
+
+                        {
+                            isDropdownOpen && (
+                                <View
+                                style={{
+                                    marginTop: 8,
+                                    marginHorizontal: 20,
+                                    padding: 10,
+                                    paddingHorizontal: 16,
+                                    gap: 10
+                                }}>
+                                {
+                                    ["Well", "Block", "Installation", "Pipeline"].map((asset: string) => {
+                                        return (
+                                            <Pressable
+                                            key={asset}
+                                            onPress={() => {
+
+                                                setAssetType(asset);
+                                                router.push({
+                                                    pathname: "/Assets",
+                                                    params: { type: asset },
+                                                })
+                                            }
+                                            }
+                                            style={{  paddingVertical: 8,}}>
+                                                <Text style={{ fontSize: 14, color: assetType === asset ? "#5363fe" : "#555" }}>{asset}</Text>
+                                            </Pressable>
+                                        )
+                                    })
+                                }
+                            </View>
+                            )
+                        }
+                    </View>
+                    {/* <DrawerItem
+                        label="Logout"
+                        onPress={() => router.replace("/Index")}
+                        style={{
+                        width: "100%",
+                        marginHorizontal: 0,
+                        paddingHorizontal: 0,
+                        }}
+                        labelStyle={{
+                        marginLeft: 0, // remove extra left indent
+                        }}
+                    /> */}
                 </View>
             </DrawerContentScrollView>
 
