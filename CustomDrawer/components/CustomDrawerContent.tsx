@@ -16,8 +16,8 @@ function containsHiddenRoutes(routeName: string): string {
 function CustomDrawerContent(props: any) {
     const router = useRouter();
     const { top, bottom } = useSafeAreaInsets();
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [assetType, setAssetType] = useState("");
+    // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    // const [assetType, setAssetType] = useState("");
 
     const currentRoute = props.state.routeNames[props.state.index];
 
@@ -73,7 +73,7 @@ function CustomDrawerContent(props: any) {
                     />
 
 
-                    <View
+                    {/* <View
                     style={{
                         // marginTop: 8,
                         marginHorizontal: 7,
@@ -144,7 +144,7 @@ function CustomDrawerContent(props: any) {
                             </View>
                             )
                         }
-                    </View>
+                    </View> */}
                     {/* <DrawerItem
                         label="Logout"
                         onPress={() => router.replace("/Index")}
