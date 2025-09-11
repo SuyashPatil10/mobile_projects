@@ -16,10 +16,17 @@ function containsHiddenRoutes(routeName: string): string {
 function CustomDrawerContent(props: any) {
     const router = useRouter();
     const { top, bottom } = useSafeAreaInsets();
-    // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    // const [assetType, setAssetType] = useState("");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [assetType, setAssetType] = useState("");
 
     const currentRoute = props.state.routeNames[props.state.index];
+
+    const filteredState = {
+    ...props.state,
+    routes: props.state.routes.filter(
+      (route: any) => !route.name.startsWith("(hidden)")
+    ),
+  };
 
     return (
         <View style={{flex: 1 }}>
@@ -59,21 +66,22 @@ function CustomDrawerContent(props: any) {
                     marginTop: 20,
                     alignSelf: "stretch",
                 }}>
-                    <DrawerItemList
+                    <DrawerItemList {...props} state={filteredState} />
+                    {/* <DrawerItemList
                     {...props}
-                    state={{
-                        ...props.state,
-                        routeNames: props.state.routeNames.filter(
-                        (name: string) => !name.startsWith("(hidden)")
-                        ),
-                        routes: props.state.routes.filter(
-                        (route: { name: string }) => !route.name.startsWith("(hidden)")
-                        ),
-                    }}
-                    />
+                    drawerItemStyle={({
+                        route,
+                    }: {
+                        route: { key: string; name: string };
+                        focused: boolean;
+                        color: string;
+                    }) => (route.name.startsWith("(hidden)") ? { display: "none" } : null)}
+                    /> */}
 
 
-                    {/* <View
+
+
+                    <View
                     style={{
                         // marginTop: 8,
                         marginHorizontal: 7,
@@ -144,7 +152,7 @@ function CustomDrawerContent(props: any) {
                             </View>
                             )
                         }
-                    </View> */}
+                    </View>
                     {/* <DrawerItem
                         label="Logout"
                         onPress={() => router.replace("/Index")}
@@ -181,6 +189,7 @@ function CustomDrawerContent(props: any) {
                     <Ionicons name="settings-outline" size={24} color="#fff" />
                     <Text style={{
                         fontSize: 18,
+                        // marginLeft: 20,
                         fontWeight: "500",
                         color: "#fff"
                     }}>Settings</Text>
@@ -196,6 +205,7 @@ function CustomDrawerContent(props: any) {
                     <Ionicons name="exit-outline" size={24} color="#fff" />
                     <Text style={{
                         fontSize: 18,
+                        // marginLeft: 20,
                         fontWeight: "500",
                         color: "#fff"
                     }}>Logout</Text>
