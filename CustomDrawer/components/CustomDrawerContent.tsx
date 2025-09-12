@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from "@react-navigation/drawer";
+import { ThemeProvider } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
@@ -21,12 +22,9 @@ function CustomDrawerContent(props: any) {
 
     const currentRoute = props.state.routeNames[props.state.index];
 
-    const filteredState = {
-    ...props.state,
-    routes: props.state.routes.filter(
-      (route: any) => !route.name.startsWith("(hidden)")
-    ),
-  };
+    // console.log("📌 Drawer state:", JSON.stringify(props.state, null, 2));
+    // console.log("📌 Drawer descriptors:", Object.keys(props.descriptors));
+
 
     return (
         <View style={{flex: 1 }}>
@@ -66,7 +64,32 @@ function CustomDrawerContent(props: any) {
                     marginTop: 20,
                     alignSelf: "stretch",
                 }}>
-                    <DrawerItemList {...props} state={filteredState} />
+
+
+
+                    <DrawerItemList
+                    {...props}
+                    drawerItemStyle={({
+                        route,
+                    }: {
+                        route: { key: string; name: string };
+                        focused: boolean;
+                        color: string;
+                    }) => {
+                        if (
+                        route.name === "(hidden)/Assets" ||
+                        route.name === "_sitemap" ||
+                        route.name === "+not-found"
+                        ) {
+                        return { display: "none" }; // safely hide
+                        }
+                        return null;
+                    }}
+                    />
+
+
+
+
                     {/* <DrawerItemList
                     {...props}
                     drawerItemStyle={({

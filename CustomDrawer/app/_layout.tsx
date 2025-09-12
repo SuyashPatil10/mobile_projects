@@ -59,6 +59,11 @@ function DrawerLayout() {
           drawerLabel: "Notification",
           drawerIcon: ({ size, color }) => <Ionicons name="notifications-outline" size={size} color={color} />
         }} />
+        {/* <Drawer.Screen name="Assets" options={{ 
+          title: "Assets",
+          drawerLabel: "Assets",
+          drawerIcon: ({ size, color }) => <Ionicons name="notifications-outline" size={size} color={color} />
+        }} /> */}
       </Drawer>
       </SafeAreaProvider>
     </GestureHandlerRootView>
